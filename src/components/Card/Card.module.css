@@ -1,0 +1,27 @@
+
+.divCard{
+    display: flex;
+    flex-direction: column;
+    border: 3px solid #296cd4;
+    border-radius: 15px;
+    width: fit-content;
+    margin: 15px;
+    background-color: white;
+}
+.divCard img{
+    border-radius: 10px 10px 0px 0px;
+}
+.divBtn{
+    position: relative;
+    width: fit-content;
+}
+.btnEsc{
+    background-color: #198754;
+    color: white;
+    border: none;
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    border-radius: 5px;
+    cursor: pointer;
+}
