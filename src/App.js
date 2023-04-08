@@ -1,17 +1,28 @@
 import './App.css'
 import Nav from './components/Nav/Nav'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Form from './components/Form/Form.jsx'
 import Cards from './components/Cards/Cards.jsx'
 import About from './components/About/About.jsx'
 import Detail from './components/Detail/Detail.jsx'
-import {Routes, Route, useLocation} from 'react-router-dom'
+import {Routes, Route, useLocation, useNavigate} from 'react-router-dom'
 
 function App () {
-
+ //! HOOKS
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
   const [characters,setCharacters] = useState([]);
-  
+  const { access, setAccess } = useState(false);
 
+  useEffect(() => {
+    !access && navigate("/")
+  }, [access]);
+
+  //! CREDENCIALES FAKE
+  const username = "mauriciovillanueva@gmail.com";
+  const password = "rideordie31";
+
+ //! EVENT HANDLERS
   const onSearch = (id) => {
     const URL_BASE = "https://be-a-rym.up.railway.app/api";
     const API_KEY = "2e2b897b4891.93528e4d79d430711417";
@@ -32,11 +43,17 @@ function App () {
     }
  };
 
- const onClose = (id) => {
+  const onClose = (id) => {
   setCharacters(characters.filter((char) => char.id !== id ));
  };
 
-const { pathname } = useLocation();
+  const login = (userData) => {
+    if(userData.name === username && userData.password === password){
+      setAccess(true);
+      navigate("/home");
+    } else {
+      alert("Credenciales incorrectas");
+    }
 
  // ! RENDER
   return (
@@ -44,7 +61,7 @@ const { pathname } = useLocation();
       {pathname !== "/" && <Nav onSearch={onSearch} />}
       <Routes>
         <Route path="/"
-        element={<Form/>}
+        element={<Form login={login}/>}
         />
         <Route path="/home" 
         element={<Cards characters={characters} onClose={onClose}/>}
@@ -58,7 +75,6 @@ const { pathname } = useLocation();
       </Routes>
       <hr />
     </div>
-  )
+  )}
 }
-
 export default App
